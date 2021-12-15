@@ -10,6 +10,7 @@ module.exports = () => {
         console.log("MongoDB: Not Connected", err);
     });
 
+    mongoose.Promise = global.Promise; // mongoose içindeki global promise yapısı
 }
 
 

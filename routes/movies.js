@@ -84,6 +84,25 @@ router.delete('/:movie_id', (req, res, next) => {
 });
 
 
+// Between 
+router.get('/between/:start_year/:end_year', (req, res) => {
+  const { start_year, end_year } = req.params;
+  const promise = Movie.find(
+    {
+      year: { "$gte": parseInt(start_year), "$lte": parseInt(end_year) }
+      // $gte operatörü -> büyük veya eşit anlamına gelir.
+      // $lte operatörü -> küçük veya eşit anlamına gelir.
+    }
+  );
+
+    promise.then((movie) => {
+      res.json(movie);
+    }).catch((err) => {
+      res.json(err);
+    });
+});
+
+
 
 
 

@@ -15,6 +15,18 @@ router.get('/', (req, res) => {
       res.json(err);
     });
 });
+
+
+// Top 10 listesi - :movie_id olan get routerı ile çakışmamamsı için onun üstüne yazdık.
+router.get('/top10', (req, res) => {
+  const promise = Movie.find({ }).limit(10).sort({ imdb_score: 1 });
+
+    promise.then((data) => {
+      res.json(data);
+    }).catch((err) => {
+      res.json(err);
+    });
+});
  
 
 // kayıt ekleme endpointi 

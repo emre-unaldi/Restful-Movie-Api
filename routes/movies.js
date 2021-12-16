@@ -60,6 +60,17 @@ router.put('/:movie_id', (req, res, next) => {
 });
 
 
+// verilen id ye göre kayıt silme endpointi
+router.delete('/:movie_id', (req, res, next) => {
+  const promise = Movie.findByIdAndRemove(req.params.movie_id);
+
+    promise.then(() => {
+      res.json({ status: 1 });
+    }).catch((err) => {
+      res.json(err);
+    });
+});
+
 
 
 

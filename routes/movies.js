@@ -4,6 +4,7 @@ const router = express.Router();
 // Models
 const Movie = require('../models/Movie');
 
+
 // Kayıtları listeleme enpointi 
 router.get('/', (req, res) => {
 
@@ -15,6 +16,7 @@ router.get('/', (req, res) => {
     res.json(err);
   });
 });
+
 
 // kayıt ekleme endpointi 
 router.post('/', (req, res, next) => {
@@ -28,5 +30,35 @@ router.post('/', (req, res, next) => {
       res.json(err);
     });
 });
+
+
+// verilen id ye göre kayıt getirme endpointi
+router.get('/:movie_id', (req, res, next) => {
+    const promise = Movie.findById(req.params.movie_id);
+
+    promise.then((movie) => {
+      res.json(movie);
+    }).catch((err) => {
+      res.json(err)
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router; // yönlendirmeyi dışarı aktarma 

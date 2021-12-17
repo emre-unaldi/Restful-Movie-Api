@@ -141,7 +141,17 @@ router.put('/:director_id', (req, res, next) => {
   });
 
 
-
+// Directors verilen id ye göre kayıt silme endpointi
+router.delete('/:director_id', (req, res, next) => {
+    const promise = Director.findByIdAndRemove(req.params.director_id);
+  
+      promise.then(() => {
+        res.json({ status: 1 });
+      }).catch((err) => {
+        res.json(err);
+      });
+  });
+  
 
 
 

@@ -5,7 +5,7 @@ const router = express.Router();
 const Movie = require('../models/Movie');
 
 
-// Kayıtları listeleme enpointi 
+// Movies tüm kayıtları listeleme enpointi 
 router.get('/', (req, res) => {
   const promise = Movie.find({ });
 
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 
-// Top 10 listesi - :movie_id olan get routerı ile çakışmamamsı için onun üstüne yazdık.
+// Movies Top 10 listesi - :movie_id olan get routerı ile çakışmamamsı için onun üstüne yazdık.
 router.get('/top10', (req, res) => {
   const promise = Movie.find({ }).limit(10).sort({ imdb_score: 1 });
 
@@ -29,7 +29,7 @@ router.get('/top10', (req, res) => {
 });
  
 
-// kayıt ekleme endpointi 
+// Movies kayıt ekleme endpointi 
 router.post('/', (req, res, next) => {
   const movie = new Movie(req.body);  
   const promise = movie.save(); // veritabanını dışarı aktarma ve kontrolü için değişkene atandı
@@ -42,7 +42,7 @@ router.post('/', (req, res, next) => {
 });
 
 
-// verilen id ye göre kayıt getirme endpointi
+// Movies verilen id ye göre kayıt getirme endpointi
 router.get('/:movie_id', (req, res, next) => {
     const promise = Movie.findById(req.params.movie_id);
 
@@ -54,7 +54,7 @@ router.get('/:movie_id', (req, res, next) => {
 });
 
 
-// verilen id ye göre kayıt güncelleme endpointi
+// Movies verilen id ye göre kayıt güncelleme endpointi
 router.put('/:movie_id', (req, res, next) => {
   const promise = Movie.findByIdAndUpdate(
     req.params.movie_id,
@@ -72,7 +72,7 @@ router.put('/:movie_id', (req, res, next) => {
 });
 
 
-// verilen id ye göre kayıt silme endpointi
+// Movies verilen id ye göre kayıt silme endpointi
 router.delete('/:movie_id', (req, res, next) => {
   const promise = Movie.findByIdAndRemove(req.params.movie_id);
 
@@ -84,7 +84,7 @@ router.delete('/:movie_id', (req, res, next) => {
 });
 
 
-// Between 
+// Movies iki yıl arasındaki kayıtları listeleme - Between 
 router.get('/between/:start_year/:end_year', (req, res) => {
   const { start_year, end_year } = req.params;
   const promise = Movie.find(
@@ -101,22 +101,5 @@ router.get('/between/:start_year/:end_year', (req, res) => {
       res.json(err);
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router; // yönlendirmeyi dışarı aktarma 

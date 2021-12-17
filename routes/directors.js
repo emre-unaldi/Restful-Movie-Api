@@ -151,20 +151,5 @@ router.delete('/:director_id', (req, res, next) => {
         res.json(err);
       });
   });
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

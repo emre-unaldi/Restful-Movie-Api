@@ -7,6 +7,8 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const moviesRouter = require('./routes/movies'); //movies router dahil edildi.
+const directorsRouter = require('./routes/directors'); //directors router dahil edildi.
+
 const req = require('express/lib/request');
 
 const app = express();
@@ -30,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/movies', moviesRouter); // movies router kullanıldı.
-
+app.use('/api/directors', directorsRouter) // directors router kullanıldı.
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
 });
 
 
-// Directors-Movies join ile birleştirip tüm directorleri listeleme
+// Directors-Movies join ile birleştirip tüm directorleri listeleme endpointi
 router.get('/', (req, res) => {
     const promise = Director.aggregate([ // join işlemi için 
         {
@@ -68,7 +68,7 @@ router.get('/', (req, res) => {
 });
 
 
-// verilen director ID'ye göre director-movies kayıtlarını listeleme 
+// verilen director ID'ye göre director-movies kayıtlarını listeleme endpointi
 router.get('/:director_id', (req, res) => {
     const promise = Director.aggregate([ // join işlemi için 
         {
@@ -121,6 +121,24 @@ router.get('/:director_id', (req, res) => {
             res.json(err);
         });
 });
+
+
+// Directors verilen id ye göre kayıt güncelleme endpointi
+router.put('/:director_id', (req, res, next) => {
+    const promise = Director.findByIdAndUpdate(
+      req.params.director_id,
+      req.body,
+      {
+        new: true  // direk olarak güncel data yı ekrana verir.
+      }
+    );
+  
+      promise.then((director) => {
+        res.json(director);
+      }).catch((err) => {
+        res.json(err);
+      });
+  });
 
 
 

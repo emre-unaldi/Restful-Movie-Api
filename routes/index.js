@@ -19,9 +19,9 @@ router.get('/', (req, res, next) => {
 router.post('/register', (req, res, next) => {
   const { username, password } = req.body;
 
-  bcrypt.hash(password, 10).then((hash) => {
+  bcrypt.hash(password, 10).then((hash) => { // 10 değeri şifreleme aralığıdır. hash değeri şifrelenmiş passwordu tutar
     const user = new User({
-      username,
+      username, // username = username demektir. modelimizdeki username ye body den gelen username aktarılır. bu şekilde yazmak es6 standartıdır.
       password: hash
     });
   
@@ -34,37 +34,38 @@ router.post('/register', (req, res, next) => {
   });
 });
 
-
+// login işlemini yapıp çıktı olarak token üreten endpoint
 router.post('/authenticate', (req, res) => {
   const { username, password } = req.body;
 
-  User.findOne({
-    username
+  User.findOne({ // veritabanı sorgusu
+    username // aranacak değer -> username: username demektir aslında ama es6 sayesinde bu şekilde yazabiliriz.
   }, (err, user) => {
     if (err)
       throw err;
     
-    if(!user){
+    if(!user){ // usere yoksa
       res.json({
         status: false,
         message: 'Authentication failed, user not found.'
       });
-    }else{
-      bcrypt.compare(password, user.password).then((result) => {
-        if (!result){
-          res.json({
+    }else{ // user varsa 
+      bcrypt.compare(password, user.password).then((result) => { // 1.parametre kullanıcının girdiği servisten gelen password 
+        if (!result){  // false dönerse                          // 2.parametre ise veritabanından gelen şifrelenmiş password
+          res.json({                                             // resulttan şifre doğruluğuna göre true | false değer döner
             status: false,
             message: 'Authentication failed, wrong password.'
           });
-        }else{
+        }else{ // true ise yani şifresi doğruysa 
           const payload = {
-            username
+            username // username: username demek
           };
-          const token = jwt.sign(payload, req.app.get('api_secret_key'), {
-            expiresIn: 720 // 12 saat
-          });
+          // burda ise token ımızı oluşturuyoruz.
+          const token = jwt.sign(payload, req.app.get('api_secret_key'), { // 1.parametre ile payloadımızı veriyoruz.
+            expiresIn: 720 // 12 saat                                      // 2.parametre secret keyimiz
+          });                                                              // 3.parametre  olarak ise tokena süre verebiliriz.
 
-          res.json({
+          res.json({ // oluşan tokenı json tipinde döndürdük
             status: true,
             token
           });

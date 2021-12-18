@@ -2,12 +2,12 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should(); // should olmalı demektir.
 
-const server = require('../app'); // server imizi yani app.js dosyasımızı dahil ettik
+const server = require('../../app'); // server imizi yani app.js dosyasımızı dahil ettik
 
 chai.use(chaiHttp); // chaiHttp pluginini kullanılabilir hale getirdik
 
 describe('Node Server', () => { 
-    it('(GET/) anasayfaya döndürür.', (done) =>  {
+    it('(GET /) returns the homepage', (done) =>  {
         chai.request(server) // chai ile servera bir request (istek) yapar
             .get('/')        // '/' direkt kök dizine gidecek yani localhost:3000 portuna gider.
             .end((err, res) => { // bu istek bittikten sonra 

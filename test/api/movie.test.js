@@ -1,5 +1,7 @@
 const chai = require('chai'); 
 const chaiHttp = require('chai-http');
+const { describe } = require('mocha');
+const { set } = require('../../app');
 const should = chai.should(); 
 
 const server = require('../../app'); 
@@ -10,7 +12,7 @@ let token;
 // testler başlamadan önce tokenı almamız gerekiyor bu yüzden 
 // before keywordü ile testler başlamadan önce işlem yapabiliyoruz.
 
-describe('/api/movies tests', () => { 
+describe('(/api/movies tests)', () => { 
     before((done) => {
         chai.request(server)
             .post('/authenticate')
@@ -22,7 +24,7 @@ describe('/api/movies tests', () => {
             });
     });
 
-    describe('/GET movies', () => {
+    describe('(/GET movies)', () => {
         it('it should GET all the movies', (done) => {
             chai.request(server)
                 .get('/api/movies') // get isteğinde bulunuldu.
@@ -34,6 +36,36 @@ describe('/api/movies tests', () => {
                 });
         });
     });
+
+    describe('(/POST movie)', () => {
+        it('it should POST a movie', (done) => {
+            const movie = {
+                title: 'Ramiz Dayı',
+                director_id: '61be2ec90a7d610ba2532347',
+                category: 'Kabadayı',
+                country: 'Türkiye',
+                year: 2021,
+                imdb_score: 9
+            };
+
+            chai.request(server)
+                .post('/api/movies')
+                .send(movie)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('title');
+                    res.body.should.have.property('director_id');
+                    res.body.should.have.property('category');
+                    res.body.should.have.property('country');
+                    res.body.should.have.property('year');
+                    res.body.should.have.property('imdb_score');
+                    done();
+                });
+        });
+    });
+
 
 });
 

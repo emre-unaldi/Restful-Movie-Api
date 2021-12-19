@@ -87,5 +87,34 @@ describe('(/api/movies tests)', () => {
         });
     });
 
+    describe('(/PUT/:director_id movie)', () => {
+        it('it should UPDATE a movie given by id', (done) => {
+            const movie = {
+                title: '93RamizDayı',
+                director_id: '61be2ec90a7d610ba2532348',
+                category: 'Mafya',
+                country: 'USA',
+                year: 2020,
+                imdb_score: 8
+            };
+
+            chai.request(server)
+                .put('/api/movies/' + movieId)
+                .send(movie)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('title').eql(movie.title);
+                    res.body.should.have.property('director_id').eql(movie.director_id);
+                    res.body.should.have.property('category').eql(movie.category);
+                    res.body.should.have.property('country').eql(movie.country);
+                    res.body.should.have.property('year').eql(movie.year);
+                    res.body.should.have.property('imdb_score').eql(movie.imdb_score);
+                    done();
+                });
+        });
+    });
+
 });
 

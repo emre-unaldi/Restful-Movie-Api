@@ -8,7 +8,7 @@ const server = require('../../app');
 
 chai.use(chaiHttp);
 
-let token;
+let token, movieId;
 // testler başlamadan önce tokenı almamız gerekiyor bu yüzden 
 // before keywordü ile testler başlamadan önce işlem yapabiliyoruz.
 
@@ -61,11 +61,31 @@ describe('(/api/movies tests)', () => {
                     res.body.should.have.property('country');
                     res.body.should.have.property('year');
                     res.body.should.have.property('imdb_score');
+                    movieId = res.body._id;
                     done();
                 });
         });
     });
 
+    describe('(/GET/:director_id movie)', () => {
+        it('it should GET a movie by the given id', (done) => {
+            chai.request(server)
+                .get('/api/movies/' + movieId)  // üstteki post testinden elde ettiğimiz movieId yi kontrol için verdik
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('title');
+                    res.body.should.have.property('director_id');
+                    res.body.should.have.property('category');
+                    res.body.should.have.property('country');
+                    res.body.should.have.property('year');
+                    res.body.should.have.property('imdb_score');
+                    res.body.should.have.property('_id').eql(movieId); // id property si eşit olmalı bizim gönderdiğimiz id ye 
+                    done();
+                });
+        });
+    });
 
 });
 

@@ -8,7 +8,7 @@ const server = require('../../app');
 
 chai.use(chaiHttp);
 
-let token, movieId;
+let token, movieId,start_year,end_year;
 // testler başlamadan önce tokenı almamız gerekiyor bu yüzden 
 // before keywordü ile testler başlamadan önce işlem yapabiliyoruz.
 
@@ -67,7 +67,7 @@ describe('(/api/movies tests)', () => {
         });
     });
 
-    describe('(/GET/:director_id movie)', () => {
+    describe('(/GET/:movie_id movie)', () => {
         it('it should GET a movie by the given id', (done) => {
             chai.request(server)
                 .get('/api/movies/' + movieId)  // üstteki post testinden elde ettiğimiz movieId yi kontrol için verdik
@@ -87,7 +87,7 @@ describe('(/api/movies tests)', () => {
         });
     });
 
-    describe('(/PUT/:director_id movie)', () => {
+    describe('(/PUT/:movie_id movie)', () => {
         it('it should UPDATE a movie given by id', (done) => {
             const movie = {
                 title: '93RamizDayı',
@@ -116,7 +116,7 @@ describe('(/api/movies tests)', () => {
         });
     });
 
-    describe('(/DELETE/:director_id movie)', () => {
+    describe('(/DELETE/:movie_id movie)', () => {
         it('it should DELETE a movie given by id', (done) => {
             chai.request(server)
                 .delete('/api/movies/' + movieId)

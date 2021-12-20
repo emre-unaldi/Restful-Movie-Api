@@ -20,7 +20,7 @@ describe('Director tests', () => {
 			});
 	});
 
-	describe('/GET Directors', () => {
+	describe('(/GET Directors)', () => {
 		it('Get all directors records', (done) => {
 			chai.request(server)
 				.get('/api/directors')
@@ -36,7 +36,7 @@ describe('Director tests', () => {
 		});
 	});
 
-	describe('/POST Director', () => {
+	describe('(/POST Director)', () => {
 		it('Add Director record', (done) => {
 			const director = {
 				name: 'Jack',
@@ -60,7 +60,7 @@ describe('Director tests', () => {
 		});
 	});
 
-	describe('/GET :director_id', () => {
+	describe('(/GET :director_id)', () => {
 		it('Get Director record by ID', (done) => {
 			chai.request(server)
 				.get('/api/directors/' + directorId)
@@ -75,7 +75,7 @@ describe('Director tests', () => {
 		});
 	});
 
-    describe('/PUT :director_id', () => {
+    describe('(/PUT :director_id)', () => {
 		it('Update Director record', (done) => {
 			const director = {
 				name: 'Mike',
@@ -99,5 +99,20 @@ describe('Director tests', () => {
 				});
 		});
 	});
+
+    describe('(/DELETE :director_id)', () => {
+        it('Delete Director record by id', (done) => {
+            chai.request(server)
+                .del('/api/directors/' + directorId)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    if (err)
+                        throw err;
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+    });
 
 });

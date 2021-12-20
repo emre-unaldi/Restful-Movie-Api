@@ -11,6 +11,8 @@ describe('Node Server', () => {
         chai.request(server) // chai ile servera bir request (istek) yapar
             .get('/')        // '/' direkt kök dizine gidecek yani localhost:3000 portuna gider.
             .end((err, res) => { // bu istek bittikten sonra 
+                if (err)
+                        throw err;
                 res.should.have.status(200); // response edilen http inin 200 status koduna sahip olmalı demektir. 
                 done();
             });

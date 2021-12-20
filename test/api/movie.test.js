@@ -12,7 +12,7 @@ let token, movieId;
 // testler başlamadan önce tokenı almamız gerekiyor bu yüzden 
 // before keywordü ile testler başlamadan önce işlem yapabiliyoruz.
 
-describe('(/api/movies tests)', () => { 
+describe('Movie tests', () => { 
     before('Get Token', (done) => {
 		chai.request(server)
 			.post('/authenticate')
@@ -31,6 +31,9 @@ describe('(/api/movies tests)', () => {
                 .get('/api/movies') // get isteğinde bulunuldu.
                 .set('x-access-token', token)   // aldığımız token değerini set diyerek header ile verdik.
                 .end((err, res) => {
+                    if (err)
+                        throw err;
+                        
                     res.should.have.status(200);  // dönen http protokolü status değeri 200 olmalı demek 
                     res.body.should.be.a('array'); // dönen body değeri bir array olmalı demek - should.be.a('array')
                     done();
@@ -74,6 +77,9 @@ describe('(/api/movies tests)', () => {
                 .get('/api/movies/' + movieId)  // üstteki post testinden elde ettiğimiz movieId yi kontrol için verdik
                 .set('x-access-token', token)
                 .end((err, res) => {
+                    if (err)
+                        throw err;
+
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('title');
@@ -104,6 +110,9 @@ describe('(/api/movies tests)', () => {
                 .send(movie)
                 .set('x-access-token', token)
                 .end((err, res) => {
+                    if (err)
+                        throw err;
+
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('title').eql(movie.title);
@@ -123,6 +132,9 @@ describe('(/api/movies tests)', () => {
                 .delete('/api/movies/' + movieId)
                 .set('x-access-token', token)
                 .end((err, res) => {
+                    if (err)
+                        throw err;
+
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql(1);

@@ -37,5 +37,28 @@ describe('(/api/director tests)', () => {
         });
     });
 
+    describe('(/POST director)', () => {
+        it('it should POST a director', (done) => {
+            const director = {
+                name: 'Ramiz',
+                surname: 'Dayıı',
+                bio: 'Mafyacılık İşleri',
+            };
+
+            chai.request(server)
+                .post('/api/directors')
+                .send(director)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('name');
+                    res.body.should.have.property('surname');
+                    res.body.should.have.property('bio');
+                    directorId = res.body._id;
+                    done();
+                });
+        });
+    });
 });
 

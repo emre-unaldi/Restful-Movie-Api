@@ -75,4 +75,29 @@ describe('Director tests', () => {
 		});
 	});
 
+    describe('/PUT :director_id', () => {
+		it('Update Director record', (done) => {
+			const director = {
+				name: 'Mike',
+                surname: 'Tyson',
+                bio: 'güncellendi.'
+			};
+
+			chai.request(server)
+				.put('/api/directors/' + directorId)
+				.send(director)
+				.set('x-access-token', token)
+				.end((err, res) => {
+					if (err)
+						throw err;
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.should.have.property('name').eql(director.name);
+                    res.body.should.have.property('surname').eql(director.surname);
+                    res.body.should.have.property('bio').eql(director.bio);
+					done();
+				});
+		});
+	});
+
 });

@@ -8,23 +8,24 @@ const server = require('../../app');
 
 chai.use(chaiHttp);
 
-let token, movieId,start_year,end_year;
+let token, movieId;
 // testler başlamadan önce tokenı almamız gerekiyor bu yüzden 
 // before keywordü ile testler başlamadan önce işlem yapabiliyoruz.
 
 describe('(/api/movies tests)', () => { 
-    before((done) => {
-        chai.request(server)
-            .post('/authenticate')
-            .send({ username: 'eunaldi', password: '1189038' })
-            .end((err, res) => {
-                token = res.body.token;
-                //console.log("Token = " + token);
-                done();
-            });
-    });
+    before('Get Token', (done) => {
+		chai.request(server)
+			.post('/authenticate')
+			.send({username: 'eunaldi', password: '1189038'})
+			.end((err, res) => {
+				if (err)
+					throw err;
+				token = res.body.token;
+				done();
+			});
+	});
 
-    describe('(/GET movies)', () => {
+    describe('(/GET Movies)', () => {
         it('it should GET all the movies', (done) => {
             chai.request(server)
                 .get('/api/movies') // get isteğinde bulunuldu.
@@ -37,7 +38,7 @@ describe('(/api/movies tests)', () => {
         });
     });
 
-    describe('(/POST movie)', () => {
+    describe('(/POST Movie)', () => {
         it('it should POST a movie', (done) => {
             const movie = {
                 title: 'Ramiz Dayı',
